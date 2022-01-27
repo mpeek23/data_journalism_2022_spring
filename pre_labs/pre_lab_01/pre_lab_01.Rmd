@@ -93,6 +93,7 @@ ppp_maryland_loans <- read_rds("pre_lab_01.rds")
 Once it loads, look at the environment window at right in RStudio for ppp_maryland_loans. It's next to a small blue circle with a white arrow in it.  To the right of that, look at how many "obs" the dataset has ("obs" is short for observation, which is another way of saying rows or records). Look at how many variables it has (another way of saying columns or fields).  Write the number of observations and variables below.
 
 **Answer**
+195856 obs. of 63 variqbles
 
 ### Task 3: Glimpse data
 **Task** Run the following codeblock to use glimpse() to get a sense of the data, some of the values in each field/variable/column, and the data types of each field/variable/column.
