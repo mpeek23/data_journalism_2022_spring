@@ -18,7 +18,7 @@ Running this notebook will help you understand key data analysis methods and con
 
 When you are finished running the code in this notebook, you will push changes to your course GitHub repo, and upload the link to ELMS as instructed.
 
-You also should update your class reference notebook with code examples and what they mean. When you come across a new concept or R verb, put it in your reference notebook along with a sentence about what it does. For example:
+You also should update your class reference notebook with code examples and what they mean. When you come across a new concept or R verb, put it in your reference notebook along with a sentence about what it does. For example
 
 ```{r}
 library(tidyverse)
@@ -104,6 +104,10 @@ glimpse(ppp_maryland_loans)
 
 In the space below, write the data type for the "name" column and the "amount" column (it's in light gray, offset by < >).  Also offer your best guess as to what the "name" column and the "amount" column represent.
 **Answer**
+Name: "TARBIYAH ACADEMY INC", "J &AMP; …
+Amount: 149000.0, 146000.0, 140400.0, 139…
+
+Needed the most loans and the average amount?
 
 ### Task 4: Examine data "head"
 **Task** Run the following codeblock to use head() to examine the first six rows of data. Explore the data by clicking the black arrow on the right side of the output table, allowing you to examine additional columns.
@@ -112,6 +116,7 @@ head(ppp_maryland_loans)
 ```
 In the space below, write the name of the business from the first row of the "name" column.
 **Answer**
+TARBIYAH ACADEMY INC
 
 ### Task 5: Explore data with interactive dataframe
 **Task** look at the environment window at right in RStudio for ppp_maryland_loans. It's next to a small blue circle with a white arrow in it. Click on the ppp_maryland_loans -- not the blue circle. It will open the dataframe as an interactive table.  Scroll down to see additional rows.  Scroll left to see additional columns. Click on a column name to sort by that column.
@@ -128,6 +133,7 @@ ppp_maryland_loans %>%
 ```
 How many loans does Anne Arundel County have?  Put your answer in the space below.
 **Answer**
+17336	
 
 ### Task 7
 **Task** Run the following codeblock to group the ppp_maryland_loans dataframe by the county for each loan, count the number of loans in that group, and then sort so the county with the highest number of loans is listed first.
@@ -141,6 +147,7 @@ ppp_maryland_loans %>%
 ```
 Which county has the most loans?  Put your answer in the space below.
 **Answer**
+Montgomery
 
 ### Task 8
 **Task** Run the following codeblock to group the ppp_maryland_loans dataframe by county and race, then count the number of loans in that group, and then sort from A-Z by county and then by race.
@@ -155,6 +162,7 @@ ppp_maryland_loans %>%
 
 How many records were there for White loans in Anne Arundel County, according to the data?  Put your answer in the space below.
 **Answer**
+1854
 
 ### Task 9
 **Task** Run the following codeblock to group the ppp_maryland_loans dataframe by the county for each loan, and then count the number of loans in that group and add up the value of all loans in that group. Then sort so the county with the highest total loan dollar amount is listed first.
@@ -169,6 +177,7 @@ ppp_maryland_loans %>%
 ```
 Which county has the highest total dollar amount of loans?  Put your answer in the space below.
 **Answer**
+Montgomery
 
 ### Task 10
 **Task** Run the following codeblock to group the ppp_maryland_loans dataframe by the county for each loan. Then do the following summarizations for each group:count the number of loans , add up the value of all loans, and calculate the mean and median loan amounts. Then sort so the county with the highest mean dollar amount is listed first.
@@ -185,6 +194,7 @@ ppp_maryland_loans %>%
 ```
 Which county has the highest mean loan amount?  Put your answer in the space below.
 **Answer**
+Howard
 
 ### Task 11
 **Task** Run the following codeblock to group the ppp_maryland_loans dataframe by the county for each loan. Then do the following summarizations for each group:count the number of loans, add up the value of all loans, calculate the mean and median loan amounts and calculate the smallest and largest loans. Then sort so the county with the largest max loan amount is listed first.
@@ -204,6 +214,7 @@ ppp_maryland_loans %>%
 ```
 Which is the max loan amount in Anne Arundel County?  Put your answer in the space below.
 **Answer**
+10000000
 
 ### Task 12
 
