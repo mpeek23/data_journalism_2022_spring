@@ -1,6 +1,6 @@
 ---
 title: "Class Reference"
-author: "Student name"
+author: "Maddy Peek"
 output:
   html_document:
     theme: cerulean
@@ -19,6 +19,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Consider this a personal guide to the commands and functions you will learn. In general, when you come across an R command or function that you want to remember, put it in here along with a description of what it does and when you'd use it.
 
-library(tidyverse)
-library (dplyr)
+
+> setwd("~/Documents/GitHub/data_journalism_2022_spring")
+> setwd("~/Documents/GitHub/data_journalism_2022_spring/pre_labs")
+> setwd("~/Documents/GitHub/data_journalism_2022_spring/pre_labs/pre_lab_01")
+> knitr::opts_chunk$set(echo = TRUE)
+> options(scipen=999)
+> library(tidyverse)
 
