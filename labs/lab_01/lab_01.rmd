@@ -114,8 +114,7 @@ Store it as a variable object called `wv_summary` so that you can examine it wit
 
 **A7** [The most newsworthy data fron this set is the total amount of loans- a whopping $2,600,771,578. I also thought it was interesting that the average loan was fairly highh at 78,016.91- but still much lower than the largest loan at 8,912,202.]
 ```{r}
-# Write the code to produce your answer here
-wv_ppp_loans %>%
+wv_summary <- wv_ppp_loans  %>%
   group_by(state) %>%
   summarise(
     count_loans = n(),
