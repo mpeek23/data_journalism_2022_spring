@@ -191,7 +191,7 @@ What is the datatype for `date_approved` (it's just to the right of the column n
 
 ```{r}
 lubridate_maryland_ppp <- maryland_ppp_sample %>% mutate(
-    CleanDate = ymd_hms(date_approved)
+    CleanDate = ymd(date_approved)
 )
 glimpse(lubridate_maryland_ppp)
 ```
