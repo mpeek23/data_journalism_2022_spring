@@ -48,37 +48,58 @@ west_virginia_ppp <- read_rds("data/lab_02.rds")
 
 **Q1** Create a new column that divides the loan amounts into the following options - under_10k, 10k_50k, 50k_100k, 100k_500k, 500k_1m, 1m_plus - and calculates how many loans are in each group. How would you describe the distribution of loans in a sentence?
 Hint: You will need to use `case_when` to make this work.
-**A1** [write your answer here]
+**A1** [The majority of the loans were in the 10-50k category, with the rest of the loans skewing on the lower side.]
 
 ```{r}
 # Write the code to produce your answer here
-
+west_virginia_ppp %>%
+mutate(
+  amount_category = case_when(
+    amount < 10000 ~ 'under_10k',
+    amount >= 10000 & amount < 50000 ~ '10k_to_50k',
+     amount >= 50000 & amount < 100000 ~ '50k_to_100k',
+    amount >= 100000 & amount < 500000 ~ '100k_to_500k',
+    amount >= 500000 & amount < 1000000 ~ '500k_to_1m',
+    amount >= 1000000 ~ '1m_plus' )
+  )%>%
+ group_by(amount_category) %>%
+  summarise(total = n()) %>%
+  arrange(desc(total))
 ```
 
 **Q2** Some of the loans appear not to have been paid out - there is a column representing the amount of money that hasn't been disbursed to the applicant. Which servicing lenders have the most loans with undisbursed amounts greater than 0?
-**A2** [write your answer here]
+**A2** [Davis Trust Company,Miners & Merchants Bank]
 
 ```{r}
 # Write the code to produce your answer here
+west_virginia_ppp %>%
+select(lender, undisbursed_amount) %>%
+arrange(desc(undisbursed_amount))
 
 ```
 
 **Q3** What are some potential reasons why a loan might not be paid out? What questions does that circumstance raise for you?
-**A3** [write your answer here]
+**A3** [From research, I've determined that there are several reasons a loan might not be disbursed, including pending fraud investigations, a lack of initial paperwork, not enough documentation, etc. This would raise questions that would prompt one to look into the company and why they're being investigated.]
 
 
 **Q4** Which month in 2021 had the most loans approved?
-**A4** [write your answer here]
+**A4** [April]
 
 ```{r}
 # Write the code to produce your answer here
-
+west_virginia_ppp %>%
+  mutate(Month = floor_date(date_approved, "month")) %>%
+  group_by(Month) %>%
+  summarise(total = n()) %>%
+  arrange(desc(total))
 ```
 
 **Q5** How many loans went to West Virginia applicants that listed the maximum number of jobs retained (500)? Which one had the earliest approved date?
-**A5** [write your answer here]
+**A5** [10 loans went to different companies. The earliest approved date was April 8, 2020.]
 
 ```{r}
 # Write the code to produce your answer here
-
+applicants_500 <- west_virginia_ppp %>%
+filter(jobs_retained =="500") %>%
+arrange(desc(amount))
 ```
