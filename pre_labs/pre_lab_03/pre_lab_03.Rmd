@@ -36,16 +36,20 @@ library(tidyverse)
 
 ### Task 2: Load data
 **Task** Load the PPP loan dataset by running the following code. We'll use the guess_max() function as an argument to use the first 10 rows to set the data type. What does the first line of the red Warning message that prints out when you load the data say? Answer below.
+
 **Answer**
+Warning: One or more parsing issues, see `problems()` for details
 
 ```{r}
-ppp_maryland_loans <- read_csv("ppp_loans_md.csv.zip", guess_max=10)
+ppp_maryland_loans <- read_csv("ppp_loans_md.csv.zip", guess_max=10)pro
 
 ```
 
 ### Task 3: Check for problems on load
 **Task** Check for problems that occurred when loading the ppp loan data for Maryland by running the following code.  How many problems were there, as shown by the number of rows in the output table showing errors? Answer below.
+
 **Answer**
+There were 87,927 problems
 
 ```{r}
 
@@ -55,7 +59,9 @@ problems(ppp_maryland_loans)
 
 ### Task 4: Reload data
 **Task** Run the following codeblock to reload the data, using every row to set the data types. Does it show any parsing errors when you run? Answer below
+
 **Answer**
+No parsing errors!
 
 ```{r}
 ppp_maryland_loans <- read_csv("ppp_loans_md.csv.zip", guess_max=195865)
@@ -63,7 +69,12 @@ ppp_maryland_loans <- read_csv("ppp_loans_md.csv.zip", guess_max=195865)
 
 ### Task 5: Examine the data with glimpse
 **Task** Run the following codeblock to glimpse the data.  What data type is the "amount" field?  What data type is the "name" field? What data type is the id column? Answer below.
+
 **Answer**
+Amount: double class (numeric)
+Name: character
+Id: double class (numeric)
+
 ```{r}
 glimpse(ppp_maryland_loans)
 ```
@@ -79,7 +90,10 @@ glimpse(ppp_maryland_loans)
 
 ### Task 7: Examine the franchise column for missing values.
 **Task** Run the following codeblock to group by franchise_name, count the number of loans, then sort from highest to lowest on count. How many loans are there where franchise_name is NA? How many loans are there where the franchise_name is "Subway"? Answer below.
+
 **Answer**:
+NA: 192,959 loans
+Subway: 275 loans
 
 ```{r}
 
@@ -92,7 +106,9 @@ ppp_maryland_loans %>%
 ```
 ### Task 8: Examine the forgiveness_amount column for missing values.
 **Task** Run the following codeblock to group by forgiveness_amount, count the number of loans, then sort from highest to lowest on count. How many loans are there where forgiveness_amount is NA? Answer below.
+
 **Answer**:
+135,073 N/A forgiveness amount
 
 ```{r}
 ppp_maryland_loans %>%
@@ -106,6 +122,8 @@ ppp_maryland_loans %>%
 ### Task 9: Examine the forgiveness_date column for missing values.
 **Task** Run the following codeblock to group by forgiveness_date, count the number of loans, then sort from highest to lowest on count and filter to only show NA values. How many loans are there where forgiveness_date is NA? Is it the same as the number for forgiveness_amount? Answer below.
 **Answer**:
+Loan count: 135073
+It is the same data.
 
 ```{r}
 ppp_maryland_loans %>%
@@ -120,6 +138,8 @@ ppp_maryland_loans %>%
 ### Task 10: Examine forgiveness_date and forgiveness_amount together
 **Task** Run the following codeblock to group by forgiveness_date and forgiveness_amount, count the number of loans, then sort from highest to lowest on count and filter to only show NA values. How many loans are there where forgiveness_date and forgiveness_amount is NA? Is it the same as the number for forgiveness_amount and forgiveness_amount run separately in the codeblocks above? What can you conclude from Answer below.
 **Answer**:
+
+135,073 loans showed up as NA for forgiveness_date and forgiveness_amount.
 
 ```{r}
 ppp_maryland_loans %>%
@@ -147,6 +167,8 @@ library(lubridate)
 ### Task 13: Look for date gaps in data
 **Task** Run the following codeblock to create a new column called "month_year_approved" that extracts the month and year from the "date_approved" column.  Group by the new "month_year_approved" column, count, and sort by "month_year_approved". How many loans are there in the data for October 2020? Answer below. Add a description of what this code does to your reference notebook.
 **Answer**
+
+
 ```{r}
 ppp_maryland_loans %>%
   mutate(month_year_approved = floor_date(date_approved, "month")) %>%
