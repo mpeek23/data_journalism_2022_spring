@@ -73,8 +73,11 @@ mutate(
 ```{r}
 # Write the code to produce your answer here
 west_virginia_ppp %>%
-select(lender, undisbursed_amount) %>%
-arrange(desc(undisbursed_amount))
+  filter (undisbursed_amount > 0) %>%
+  group_by (servicing_lender_name, servicing_lender_state)%>%
+  summarise (total= n()
+             )%>%
+arrange(desc(total))
 
 ```
 
@@ -83,11 +86,12 @@ arrange(desc(undisbursed_amount))
 
 
 **Q4** Which month in 2021 had the most loans approved?
-**A4** [April]
+**A4** [March 2021]
 
 ```{r}
 # Write the code to produce your answer here
 west_virginia_ppp %>%
+  filter (date_approved > '2020-12-31') %>%
   mutate(Month = floor_date(date_approved, "month")) %>%
   group_by(Month) %>%
   summarise(total = n()) %>%
@@ -100,6 +104,6 @@ west_virginia_ppp %>%
 ```{r}
 # Write the code to produce your answer here
 applicants_500 <- west_virginia_ppp %>%
-filter(jobs_retained =="500") %>%
+filter(jobs_retained ==500) %>%
 arrange(desc(amount))
 ```
