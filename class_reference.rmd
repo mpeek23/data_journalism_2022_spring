@@ -1,0 +1,42 @@
+---
+title: "Class Reference"
+author: "Maddy Peek"
+output:
+  html_document:
+    theme: cerulean
+    highlight: pygments
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+Consider this a personal guide to the commands and functions you will learn. In general, when you come across an R command or function that you want to remember, put it in here along with a description of what it does and when you'd use it.
+
+
+> setwd("~/Documents/GitHub/data_journalism_2022_spring")
+> setwd("~/Documents/GitHub/data_journalism_2022_spring/pre_labs")
+> setwd("~/Documents/GitHub/data_journalism_2022_spring/pre_labs/pre_lab_01")
+> knitr::opts_chunk$set(echo = TRUE)
+> options(scipen=999)
+
+> library(tidyverse)
+
+>library(lubridate)
+
+```{r}m
+# if/else example
+maryland_with_in_out <- maryland_ppp %>%
+  mutate(
+    in_out = if_else(
+        servicing_lender_state == 'MD', "IN", "OUT"
+      )
+  )
+```
+
