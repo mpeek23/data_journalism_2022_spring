@@ -136,7 +136,7 @@ maryland_ppp_with_naics_and_demographics <- maryland_ppp_with_naics %>% left_joi
 ### Task 13: Asking Demographic Questions
 **Task** Find the number of PPP loans that went to ZCTAs with more than 50% non-Hispanic Black population, and calculate the average and median amounts for those loans. Put your answers below.
 **Answer**
-
+Average amount is $55,546.84 and the median amount is $19,949. 
 ```{r}
 # zcta with > 50% non-Hispanic Black population
 maryland_ppp_with_naics_and_demographics %>%
@@ -151,7 +151,7 @@ maryland_ppp_with_naics_and_demographics %>%
 ### Task 14: Asking Demographic Questions
 **Task** Find the number of PPP loans that went to ZCTAs with more than 50% non-Hispanic white population, and calculate the average and median amounts for those loans. Put your answers below.
 **Answer**
-
+The average amount $89,194.67 and the median amount was $20,833
 ```{r}
 # zcta with > 50% non-Hispanic white population
 maryland_ppp_with_naics_and_demographics %>%
@@ -165,7 +165,8 @@ maryland_ppp_with_naics_and_demographics %>%
 ### Task 15: Asking Demographic Questions
 **Task** Find the number of PPP loans that went to ZCTAs with more than 50% non-Hispanic Black population, grouped by rural or urban status, and calculate the average and median amounts for those loans. Put your answers below.
 **Answer**
-
+For rural populations, the average amount was $44,815.22 and the median amount was $19,064.57
+For urban populations, the average amount was $55,584.05 and the median amount was $19,950.
 ```{r}
 # zcta with > 50% non-Hispanic Black population grouped by rural/urban
 maryland_ppp_with_naics_and_demographics %>%
@@ -180,6 +181,8 @@ maryland_ppp_with_naics_and_demographics %>%
 ### Task 16: Asking Demographic Questions
 **Task** Find the number of PPP loans that went to ZCTAs with more than 50% non-Hispanic white population, grouped by rural or urban status, and calculate the average and median amounts for those loans. Put your answers below.
 **Answer**
+For the rural populations, the average amount was $74,462.32 and the median amount was $20,833.
+For the urban populations, the average amount was $92,029.32 and the median amount was $20,833.
 
 ```{r}
 # zcta with > 50% non-Hispanic white population grouped by rural/urban
