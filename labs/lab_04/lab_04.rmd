@@ -122,24 +122,29 @@ arrange(desc(total))
 ```
 
 **Q5** What might explain why 20850 has a significant Asian population (23.5%) and only 240 of the 3,186 loans (7.5%) are to Asian applicants?
-**A5** [write your answer here]
+**A5** [I think there might be a lot of logical explanations as to why there is not a significantly similar ratio in this data. There may not be a lot of Asian business owners, people may have reported false information on the form because they were afraid of discrimination, or because the Asian business owners were denied loans.]
 
 
 **Q6** Check to see if any Maryland zip codes that have loans where the PPP data lists the applicant as being Asian BUT are located in a zip code that does not appear to have Asian population according to the ZCTA data. How many loans do they have and what is the total amount? Take a look at these zip codes - what could explain this?
-**A6** [write your answer here]
+**A6** [Three zip codes have this criteria- 21031 (6, 6819563) 21240 (3, 358674) 20701 (4, 75170.50). All these districts are weird in-between counties so there may be some technical difficulties there?] 
 
 ```{r}
 maryland_ppp_with_naics_and_demographics %>% filter(race == "Asian" & PNHA == 0) %>% 
 group_by(zip5, race, PNHA) %>% 
-summarise(total=sum(amount)) %>% 
+summarise(
+   count = n(),
+  total=sum(amount)
+  ) %>% 
 arrange(desc(total))
 
 ```
 
 **Q7** How many industries have exactly one loan in the data (hint: you can filter _after_ using `summarise` on any totals you create). From a newsworthiness standpoint, which of these is most worthy of further exploration, and why?
-**A7** [write your answer here]
+**A7** [44 industries had only one loan. I am most interested in tortilla manufacturing, casinos, and executive and legislative offices  because I think they provide a combination of accountability and zaniness.]
 
 ```{r}
-# Write the code to produce your answer here
-
+maryland_ppp_with_naics_and_demographics %>% 
+group_by(title) %>% 
+summarise(total=n()) %>% 
+filter (total == 1)
 ```
