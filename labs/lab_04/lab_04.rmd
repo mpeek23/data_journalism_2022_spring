@@ -122,7 +122,7 @@ arrange(desc(total))
 ```
 
 **Q5** What might explain why 20850 has a significant Asian population (23.5%) and only 240 of the 3,186 loans (7.5%) are to Asian applicants?
-**A5** [I think there might be a lot of logical explanations as to why there is not a significantly similar ratio in this data. There may not be a lot of Asian business owners, people may have reported false information on the form because they were afraid of discrimination, or because the Asian business owners were denied loans.]
+**A5** [I think there might be a lot of logical explanations as to why there is not a significantly similar ratio in this data. There may not be a lot of Asian business owners, people may have reported false information on the form because they were afraid of discrimination, or because the Asian business owners didn't apply for loans or get them so they don't appear in the data.]
 
 
 **Q6** Check to see if any Maryland zip codes that have loans where the PPP data lists the applicant as being Asian BUT are located in a zip code that does not appear to have Asian population according to the ZCTA data. How many loans do they have and what is the total amount? Take a look at these zip codes - what could explain this?
