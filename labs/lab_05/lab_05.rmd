@@ -70,9 +70,18 @@ Then answer these questions:
 * What are the names of the businesses at that address?
 
 **A1.**
+The street address that has the most loans is 126 E Burke St., which has a total of 6 loans. There are 5 different businesses at this address: DREW HOLDINGS LLC, BRIX27, LLC, ABRAHAM ASHTON, HUB CO-OP LLC, RONIN PROPERTIES LLC. 
 
 ```{r}
-
+clean_25401_loans<- read_csv("data/clean-zip-25401-loan.csv") 
+clean_25401_loans %>% 
+  group_by(address) %>% 
+  summarise(total=n()) %>% 
+  arrange(desc(total)) 
+```
+```{r}
+clean_25401_loans %>% 
+filter(address== "126 E Burke St")
 ```
 
 **Q2.** Do some web research on the businesses that answered question 1.  
@@ -82,6 +91,7 @@ Google the street address.  Google the business names and search for their corpo
 Based on your research, does it seem suspicious that this collection of businesses all got loans using the same address? Why or why not. Use specific facts identified in your research to support your position.
 
 **A2.**
+The address is registered to an organization called "The Hub" which allows businesses to rent out office space or use their conference rooms. The website advertises them as a SBA recognized organization so it seems to be on the up and up that individual businesses are allowed to use this one address as their organization address. Drew Holdings is a tiny real estate business, probably like a  self-employed real estate agent, so that checks out to use shared office space. Brix 27 is a restaurant, also linked with the same names as Drew Holdings, which makess me feel a little more suspicious because why wouldn't they list their restaurant address and why are they owned by the same people. Abraham Ashton is self-employed (according to LinkedIn) and serves as an officer for both companies, which makes me feel more like he just did their legal paperwork from this shared address. 	HUB CO-OP LLC seems to be the business listed at the address, which makes sense. It lists Abraham Ashton as an officer as well, which makes me feel like he probably is doing the paperwork for all the organizations that work at this office and the office itself. Overall, this has been quite a journey but I've determined it's not suspicious, it kind of makes sense, but I would ask someone with more PPP knowledge if this is allowed and why the companies would hire someone who lists the same address on their forms. Is there any benefit to this? Is there a legal requirement?
 
 **Q3.** Start by using the West Virginia slice of the PPP loan data that you loaded at the start of the lab to create a subset of PPP loans in West Virginia's second largest county (which you can find in wv_population_county). And then use that table you created to answer the following questions:
 
@@ -92,7 +102,7 @@ Requirement: you MUST export a dataframe of PPP loans from R Studio at some poin
 
 ```{r}
 # write_csv accepts 2 arguments: the dataframe and the path to the file you write out
-write_csv(wv_population_county, "data\wv_population_county.csv")
+write_csv(wv_population_county, "data/wv_population_county.csv")
 ```
 
 Guidance: there are a lot of steps you'll need to take to answer this question. You may find it helpful to write out in English what you plan to do step-by-step before you start writing code.   
