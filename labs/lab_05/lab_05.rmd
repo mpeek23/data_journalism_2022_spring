@@ -129,6 +129,8 @@ arrange(desc(total))
 
 **A4.**
 
+The restaurant industry was hit hard by the pandemic, so it doesn't necessarily surprise me that it was the industry with the most loans. From research, I've determined that restaurants have struggled to keep staffing, financial trouble with food shortages and delayed shipping. S&P Global Market Intelligence says the restaurant industry is in the top 5 industries that suffered from the pandemic. So my first hypothesis, which I think is supported by my research, is that the restaurant industry was hit extremely hard by the pandemic. My second hypothesis is that many restaurants are self-owned. My research determined that independent restaurants outnumber chain restaurants two to one. It's a business with more independent owners, who would need more loans.
+
 **Q5.** Start with a dataframe of loans to all businesses in the city and industry that answered question 3. Answer the following questions:
 * What is the name of the business that got the highest approved loan amount?
 * How much was it for?
@@ -141,6 +143,7 @@ arrange(desc(total))
 Hint: you will not find the answers to the last three questions in the data.  You could call them directly to get that information, but I don't want you to do that for this assignment.  Instead, do some web research. I would start by Googling the company name from the data and looking at the page that comes up for the business from at http://apps.sos.wv.gov/. I would use information I found on that page and use info about the company from Google, the [Wayback machine](https://archive.org/web/) (which lets you look at older versions of a company's website), Yelp, and Facebook.
 
 **A5.**
+The business that got the highest loan was COTTLE CHRISTI L LLC, with a loan of $280,434.00. It was approved on 2021-02-17 and retained 94 jobs. The business is actually called Kitzies Restuarant to consumers. There were five different locations, two which closed after they recieved a loan.
 ```{r}
-clean_berkeley_loans %>% filter(city== "Martinsburg" & naics_code == "722511") %>% 
+martinsburg_data <- clean_berkeley_loans %>% filter(city == "Martinsburg" & naics_code == "722511")
 ```
