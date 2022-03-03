@@ -25,7 +25,8 @@ In this notebook, we are reverse engineering the story, [STORY NAME](STORY URL)
 Loading required libraries for this analysis.
 
 ```{r echo=FALSE, message=FALSE}
-
+library(tidyverse)
+library(lubridate)
 ```
 
 ## Load and Cleaning Data
@@ -33,12 +34,9 @@ Loading required libraries for this analysis.
 In this section, describe the source of the data, write a basic data dictionary for data you are working with, and discuss any caveats or issues you discovered working with this data. 
 
 ```{r}
-# Load required data
-
-# Path to data should be loaded from folder "data" i.e. read_csv("data/name_of_data.csv")
+fatal_police_shootings <- read_csv("data/fatal-police-shootings-data.csv")
 
 # Clean required data and prepare for analysis if needed. 
-
 
 ```
 
@@ -47,14 +45,14 @@ In this notebook, we are reverse engineering five sentences from the story.
 
 ### Sentence 1
 
-* **Sentence text**: [Paste in sentence to engineer here]
+* **Sentence text**: [“The starkest difference between women and men is the rate: Women account for about half the population, but 4 percent of the killings. Of those fatally shot every year, about 44 have been women.”]
+
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
-# Put code to reverse engineer sentence here
-
-# Display results of code below this codeblock
-
+fatal_police_shootings %>% filter(gender=="F") %>% 
+group_by(date) %>% 
+summarise(total=n())
 ```
 
 ### Sentence 2
