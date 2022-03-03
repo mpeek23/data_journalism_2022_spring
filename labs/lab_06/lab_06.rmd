@@ -86,7 +86,7 @@ arrange((percent_change))
 ```
 
 **Q4** What's your best guess as to why these changes occurred, and in those places in particular?
-**A4** []
+**A4** [In 2017, the Trump administration implemented the Reforming American Immigration for a Strong Economy (RAISE) Act, which cut immigration in half. It makes sense that immigration dropped drastically in some places and didn't really increase in a lot of places. Calvert is in a highly Republican county, so it makes sense that the people there likely didn't support immigration. Kent is a more urban area and is in between a lot of bigger cities like DC, Philadelphia, Annapolis, etc.]
 
 
 ## Back to Tabula
@@ -102,7 +102,7 @@ Let's load it into R, and in doing so we'll skip the first two rows and add our 
 **Task** Write code to read the CSV file into a dataframe called `domestic_migration`. As in the pre_lab, you may have to skip 1 or more rows and you may want to supply easier to use column names that use underscores. Your work on the international file should serve as a guide.
 
 ```{r}
-# Write the code to load the CSV file here
+domestic_migration <- read_csv("data/tabula-md-statistical-handbook-2B.csv", skip=3, col_names=c("state_jurisdiction", "july_2011", "july_2012", "july_2013", "july_2014", "july_2015","july_2016", "july_2017", "july_2018","july_2019", "total"))
 ```
 
 Add a column for the type of migration ("domestic") and populate it:
@@ -110,25 +110,26 @@ Add a column for the type of migration ("domestic") and populate it:
 **Task** Write the code to add a `migration_type` column to the data and populate it with the value of "domestic"
 
 ```{r}
-# Write the code to add the column here
+domestic_migration %>% mutate(migration_type= "domestic")
 ```
 
 ## Answer questions
 **Q5** Which Maryland individual jurisdiction saw the largest net decrease in domestic migration overall?
-**A5** [write your answer here]
+**A5** [Suburban Washington Region]
 
 ```{r}
-# Write the code to produce your answer here
-
+domestic_migration %>% 
+arrange((total))
 ```
 
 **Q6** How many regions & jurisdictions had net positive migration for July 2017, July 2018 and July 2019 (not just individually but all three together)?
-**A6** [write your answer here]
+**A6** [18  regions had a net positive migration across July 2017, 2018 and 2019.]
 
 ```{r}
-# Write the code to produce your answer here
-
+domestic_migration %>% 
+mutate(years_added= july_2017 + july_2018 + july_2019) %>%
+arrange(desc(years_added))
 ```
 
 **Q7** How would you describe this data? Is there a county or region that stands out, and why?
-**A7** [write your answer here]
+**A7** [I noticed all the areas are on the more rural side, falling in southern Maryland region or on the shore. The only standout was Frederick, in Montgomery County, but it is a much more agricultural area.]
