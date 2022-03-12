@@ -65,27 +65,62 @@ The defendant, Diamond Blue Smith is a Florida recording artist that was accused
 
 Q5. In what percentage of all judicial districts has the U.S. Department of Justice filed cases against people accused of fraud related to the PPP or EIDL loan program, according to the DOJ website listing those cases: https://www.justice.gov/criminal-fraud/cares-act-fraud? In answering this question, you should also produce a list of judicial districts where DOJ has NOT filed a case, according to this site.  Note: to answer this question, you will need to scrape a table of all district courts on this up-to-date Wikipedia page under the heading "Active Courts": https://en.wikipedia.org/wiki/List_of_United_States_district_and_territorial_courts  
 #A5.
-
+32.97872%
 ```{r}
 #Wikipedia list of districts
 districts_url <- "https://en.wikipedia.org/wiki/List_of_United_States_district_and_territorial_courts" %>% httr::GET(config = httr::config(ssl_verifypeer = FALSE))
 districts <- districts_url %>% 
 read_html() %>% 
 html_table()
+districts <- districts [[3]]
 
-districts <- districts [[3]] %>% 
+#Joins
+missing_districts <- anti_join(districts, judicial_districts, by=c("Region"="value"))
 
-anti_join(districts[[3]], judicial_districts, by "Region")
+#Math
+nrow(judicial_districts)/nrow(districts)*100
 
 ```
 
 
 Q6. What might explain why, according to this site, the DOJ has filed PPP-related fraud cases in less than half of the country's judicial districts?
 #A6.
+All of the judicial districts that are not in common with the filed districts seem more rural and are generally (definitely with some exceptions) in less populated states. This makes sense to me because bigger fraud cases seem more likely to be filed in the bigger, more central districts. I feel like people who live wealthier lifestyles in expensive areas are more likely to try to take advantage of the PPP program, so it makes sense the cases are filed there.
 
 Q7. Which state had the most approved PPP loans per 100,000 population? [This web page](https://dwillis.github.io/jour472files/ppp_scraping_example/index.html) has links to 52 individual web pages, one for each state (plus Washington, D.C. and Puerto Rico). Each of those web pages contains a one-row html table that has the name of the state, the number of approved loans, and the 2019 population. Here's an example for [Alabama](https://dwillis.github.io/jour472files/ppp_scraping_example/states/alabama.html). You'll need to loop over the individual state urls, scrape each individual page and combine the information on each page into a single dataframe to answer this question. Don't forget to calculation the loans per 100,000.
 #A7.
 ```{r}
+#iknowthisdoesn'tworkbuthere'smybestattempt
+state_info <- tibble 
+#load da data
+url <- "https://dwillis.github.io/jour472files/ppp_scraping_example/index.html"
+
+states <- url
+
+states <- states [[1]]
+  read_html()
+  html_table()
+
+#looping
+for (row_number in 1:nrow(states)) 
+each_row_df <- states %>%
+slice(row_number)
+url <- each_row_df$url
+
+#tables
+state_info <- url %>% 
+  read_html() %>% 
+  html_table() %>% 
+
+#bind
+state_info <- state_info [[1]] %>% 
+bind_cols(each_row) %>% 
+  mutate(state_info= total_ppp_loans / population * 10000)
+
+#new dataframe
+state_info <- state_info %>% 
+  bind_rows(state_info) %>% 
+  select(state, population, ppp_per_pop, total_ppp_loans, url)
 
 
 
