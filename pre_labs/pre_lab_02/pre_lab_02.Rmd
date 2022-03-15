@@ -99,7 +99,7 @@ One question you might have is whether the lenders servicing these loan applicat
 
 **Task** Run the following code to create a new column called `in_out` based on the values of `servicing_lender_state`. Add a description of what this code does to your reference notebook.
 
-```{r}m
+```{r}
 # if/else example
 maryland_with_in_out <- maryland_ppp %>%
   mutate(
