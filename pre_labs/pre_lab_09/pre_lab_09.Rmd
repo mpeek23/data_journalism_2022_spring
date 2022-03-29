@@ -31,7 +31,7 @@ The dataset we'll use is the PPP loan data for Maryland.  Let's load it.
 ### Task 2: Load data
 **Task** Run the following code to load packages. In the space below, indicate how many rows and columns it has.
 **Answer**
-
+ROWS: 195865 COLUMNS: 63
 ```{r}
 ppp_maryland <- read_csv("data/ppp_loans_md.csv.zip")
 ```
@@ -51,7 +51,11 @@ First, we'll create a dataframe of those top 10, called maryland_ppp_top_countie
 ### Task 3: Create a dataframe of top 10 counties for PPP loans in Maryland
 **Task** Run the following code to create a dataframe of top 10 loans by county in Maryland. In the space below, explain what each step of the code below is doing in English.
 **Answer**
-
+1: Loads the data and gives it a nice name, maryland_ppp_top_counties
+2: Groups the data by project county names
+3: Summarises the total number of loans
+4: Arranges the counties by the total number of loans, and puts them in descending order
+5: Picks the top 10 counties
 ```{r}
 maryland_ppp_top_counties <- ppp_maryland %>%
   group_by(project_county_name) %>%
@@ -196,8 +200,8 @@ maryland_ppp_top_counties %>%
   theme_economist() +
   labs(
     title="Maryland Counties with Most PPP Loans",
-    x = "County",
-    y = "Total Loans",
+    x = "County\n",
+    y = "\nTotal Loans",
     caption = "source: SBA PPP loan database"
     
   )
@@ -215,7 +219,7 @@ So, let's create a dataframe with a count of Maryland loans for each date in our
 ### Task 12: Run the following code
 **Task** Run the following code. Explain what you see after running the code in the space below. 
 **Answer**
-
+It creates a data set with date approved and the total amount of loans.
 ```{r}
 
 ppp_maryland_loans_by_date <- ppp_maryland %>%
@@ -234,7 +238,7 @@ We'll put the date on the x axis and total loans on the y axis.
 ### Task 13: Run the following code
 **Task** Run the following code. Explain what you see after running the code in the space below. 
 **Answer**
-
+It creates a line chart of the dates mapped with the toal loans. The data is high in the beginning dates, flattens out and then peaks a little bit.
 ```{r}
 ppp_maryland_loans_by_date %>%
   ggplot() + 
@@ -256,7 +260,7 @@ We'll set the date_breaks to appear for every month; if we wanted every week, we
 ### Task 14: Run the following code
 **Task** Run the following code. Explain what you see after running the code in the space below. 
 **Answer**
-
+The x axis has more labels to map more specific months.
 ```{r}
 ppp_maryland_loans_by_date %>%
   ggplot() + 
@@ -271,6 +275,7 @@ Those are a little hard to read, so we can turn them 45 degrees to remove the ov
 ### Task 15: Run the following code
 **Task** Run the following code. Explain what you see after running the code in the space below. 
 **Answer**
+The code tilts the date labels sideways so they fit better and we can actually read them!
 ```{r}
 ppp_maryland_loans_by_date %>%
   ggplot() + 
