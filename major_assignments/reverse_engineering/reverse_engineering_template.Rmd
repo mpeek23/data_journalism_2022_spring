@@ -45,62 +45,32 @@ In this notebook, we are reverse engineering five sentences from the story.
 
 ### Sentence 1
 
-* **Sentence text**: [“The starkest difference between women and men is the rate: Women account for about half the population, but 4 percent of the killings. Of those fatally shot every year, about 44 have been women.”]
+* **Sentence text**: [“Since 2015, Black women have accounted for less than 1 percent of the overall fatal shootings in cases where race was known. 
+
+But within this small subset, Black women, who are 13 percent of the female population, account for 20 percent of the women shot 
+
+and killed and 28 percent of the unarmed deaths”]
 
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
-fatal_police_shootings %>% filter(gender=="F") %>% 
-group_by(date) %>% 
-summarise(total=n())
+black_females_shot <- fatal_police_shootings %>% filter(gender == "F" & race == "B")
+#number of total rows= 7139
+#number of black females shot= 54
+54/7139 *100 
+#Percentage of Black women shot was 0.76%
 ```
-
-### Sentence 2
-
-* **Sentence text**: [Paste in sentence to engineer here]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
-
 ```{r}
-# Put code to reverse engineer sentence here
-
-# Display results of code below this codeblock
-
+women_shot <- fatal_police_shootings %>% filter(gender == "F")
+  #number of women = 320
+54/320*100
+#percentage was 16.88%
 ```
-
-### Sentence 3
-
-* **Sentence text**: [Paste in sentence to engineer here]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
-
 ```{r}
-# Put code to reverse engineer sentence here
-
-# Display results of code below this codeblock
-
+unarmed_shootings <- fatal_police_shootings %>% filter(armed == "unarmed")
+#number is 442
+blackfem_unarmed_shootings <- unarmed_shootings %>% filter(gender == "F" & race == "B")
+7/442*100
+###come back
 ```
-
-### Sentence 4
-
-* **Sentence text**: [Paste in sentence to engineer here]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
-
-```{r}
-# Put code to reverse engineer sentence here
-
-# Display results of code below this codeblock
-
-```
-
-### Sentence 5
-
-* **Sentence text**: [Paste in sentence to engineer here]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
-
-```{r}
-# Put code to reverse engineer sentence here
-
-# Display results of code below this codeblock
-
-```
-
 -30-
