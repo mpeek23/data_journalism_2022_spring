@@ -54,6 +54,7 @@ and killed and 28 percent of the unarmed deaths”]
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
+#Part one of the sentence
 black_females_shot <- fatal_police_shootings %>% filter(gender == "F" & race == "B")
 #number of total rows= 7139
 #number of black females shot= 54
@@ -61,16 +62,18 @@ black_females_shot <- fatal_police_shootings %>% filter(gender == "F" & race == 
 #Percentage of Black women shot was 0.76%
 ```
 ```{r}
+#Part two of the sentence
 women_shot <- fatal_police_shootings %>% filter(gender == "F")
   #number of women = 320
 54/320*100
 #percentage was 16.88%
 ```
 ```{r}
+#Part three of the sentence
 unarmed_shootings <- fatal_police_shootings %>% filter(armed == "unarmed")
 #number is 442
 blackfem_unarmed_shootings <- unarmed_shootings %>% filter(gender == "F" & race == "B")
 7/442*100
-###come back
+
 ```
 -30-
