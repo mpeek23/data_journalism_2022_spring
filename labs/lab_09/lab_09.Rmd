@@ -76,6 +76,38 @@ April 28, 2020
 * Use ggplot to make a horizontal bar chart that shows the top 10 states, with the length of the bar determined by the state's total PPP loans per 100,000 people. Give it an appropriate title, source, and x and y axis titles. 
 * Make the bars on the chart blue! I didn't show you how to do this in the prelab, so do some web sleuthing to figure it out.  
 
+```{r}
+# turn off sci notation
+options(scipen=999)
+library(tidyverse)
+library(tidycensus)
+state_loans <- read.csv("data/state_ppp_all.csv")
+```
+```{r echo=FALSE}
+census_api_key("50ae664b41f448a493a83b1c591fd662de559193")
+```
+```{r}
+acs_data <- load_variables(2019, "acs5", cache = TRUE) 
+```
+```{r}
+state_pop <- get_acs(geography = "state",
+              variables = c(total_population = "B01001_001"),
+              year = 2019) %>% 
+population_and_loans <- state_pop %>% left_join(state_loans, by=c("NAME"="state"))
+
+```
+
+```{r}
+top_ten %>%
+  ggplot() +
+  geom_bar(aes(x=NAME, weight=estimate))
+  labs(
+    title="Maryland Counties with Most PPP Loans",
+    x = "County\n",
+    y = "\nTotal Loans",
+    caption = "source: SBA PPP loan database"
+  )
+```
 **A2.** 
 
 **Q3.**  A scatterplot is a type of chart that helps us see relationships between two variables. One variable goes on the x axis, the other on the y axis.  For each row/observation in our data, a scatterplot puts a circle (or a "point") where the two variables intersect on a grid. 
@@ -98,6 +130,25 @@ To answer those questions, make a codeblock and do the following:
 4. Make a scatterplot. I didn't show you how to do this, so look it up! 
 5. In the answer space below, describe what you see and answer the questions posed above.  In a general sense, what do you think this means?  
 
+```{r}
+small_wv_ppp_loans <- wv_ppp %>% filter(amount < 25000) %>% 
+mutate(forgiveness_amount = case_when(
+    forgiveness_amount == "NA" ~ "0",
+    TRUE ~ forgiveness_amount
+  ))  
+```
+```{r}
+small_wv_ppp_loans %>% 
+  x <- small_wv_ppp_loans %>% filter(forgiveness_amount) 
+  y <- small_wv_ppp_loans %>% filter(initial_approval_amount)
+plot(x, y)
+ labs(
+    title="WV PPP Approved Loans and Forgiveness Dates",
+    x = "Forgiveness Amount\n",
+    y = "\nIntial Approved Amount",
+    caption = "source: WV PPP Loan Database"
+  )
+```
 **A3.**  
 
 
