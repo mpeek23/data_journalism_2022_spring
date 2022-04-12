@@ -179,7 +179,7 @@ This county shapefile has all 3233 U.S. counties.  We only want the Maryland cou
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+It filters to Maryland counties
 ```{r}
 md_counties <- counties %>%
   filter(STATEFP == "24")
@@ -190,7 +190,7 @@ To see what this looks like, let's plot it out with ggplot. We can pretty clearl
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+It plots Maryland!
 ```{r}
 md_counties %>%
   ggplot() + 
@@ -207,7 +207,7 @@ We're also going to change things up a bit to put the datasets we want to displa
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+It plots hospitals on to Maryland!
 ```{r}
 
 ggplot() + 
@@ -226,7 +226,7 @@ We can get a sense of where the largest hospitals are, by changing the color of 
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+It makes a legend for the number of beds and assigns them to the data points
 ```{r}
 
 ggplot() + 
@@ -249,13 +249,13 @@ First, let's load the libraries we'll need. We're also going to load tidycensus 
 ### Task: Load libraries
 **Task** Run the following code. Describe the output in the space below. Be sure to input your census api key.
 **Answer**
-
+Ran the stuff
 ```{r}
 library(tidyverse)
 library(sf)
 library(janitor)
 library(tidycensus)
-#census_api_key("549950d36c22ff16455fe196bbbd01d63cfbe6cf")
+census_api_key("9964335653db1aadffbab0ffc641d6edbb58a4ac")
 
 ```
 
@@ -265,7 +265,7 @@ And now let's load the dataframe of hospital information from the previous chapt
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+Filters to 50 general acute care hospitals in MD
 ```{r}
 md_hospitals <- st_read("data/Hospitals/Hospitals.shp") %>% 
   filter(STATE == "MD") %>%
@@ -282,7 +282,7 @@ Each hospital exists inside of a county, so we're going to first calculate the t
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+Makes a new data frame breaking down hospital beds by county
 ```{r}
 
 md_beds_by_county <- md_hospitals %>%
@@ -303,6 +303,7 @@ Next, we'll go out and get population data for each county from tidycensus.  The
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
+Makes a new data frame with Maryland county populations
 
 ```{r}
 
@@ -319,7 +320,7 @@ Ultimately, we're going to join this county population table with our beds by co
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+Brings geometry in the md county population dataframe
 ```{r}
 
 md_county_population <- get_acs(geography = "county", 
@@ -340,7 +341,7 @@ But there's a problem.  The column in our population data that has county names 
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+Calls MD beds by county
 ```{r}
 
 md_county_population
@@ -356,6 +357,7 @@ Let's clean the population table. We're going to rename the "NAME" column to "CO
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
+Cleans up md county population by making it match up with bed data frame
 
 ```{r}
 md_county_population <- md_county_population %>%
@@ -375,7 +377,7 @@ Now we can join them.
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+Joins MD county population data with MD county beds
 ```{r}
 md_beds_per_100k <- md_county_population %>%
   left_join(md_beds_by_county)
@@ -390,7 +392,7 @@ We have two NAs after we join, for Queen Anne's County and Carolina County.  Tha
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+Makes NA beds display 0 instead
 ```{r}
 md_beds_per_100k <- md_county_population %>%
   left_join(md_beds_by_county) %>%
@@ -405,7 +407,7 @@ Our final step before visualization, let's calculate the number of beds per 100,
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+Does the math to find per 100,000 population and arranges them smallest to largest
 ```{r}
 md_beds_per_100k <- md_county_population %>%
   left_join(md_beds_by_county) %>%
@@ -424,7 +426,7 @@ Okay, now let's visualize.  We're going to build a choropleth map, with the colo
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
-
+Maps the distribution of hospital beds per 100,000 people
 ```{r}
 ggplot() + 
   geom_sf(data=md_beds_per_100k, aes(fill=beds_per_100k)) + 
@@ -436,6 +438,7 @@ This map is okay, but the color scale makes it hard to draw fine-grained differe
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below.
 **Answer**
+Changes map colors to a red/purple/yellow color scheme
 
 ```{r}
 ggplot() + 
@@ -451,7 +454,7 @@ So let's change the color scale to a "log" scale, which will help us see those d
 ### Task: Run code
 **Task** Run the following code. Describe the output in the space below. What patterns do you see?
 **Answer**
-
+Adds more colors to show differences in area
 ```{r}
 ggplot() + 
   geom_sf(data=md_beds_per_100k, aes(fill=beds_per_100k)) + 
