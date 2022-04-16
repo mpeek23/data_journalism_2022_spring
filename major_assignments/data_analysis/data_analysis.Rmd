@@ -1,0 +1,13 @@
+---
+title: "data_analysis_project"
+output: html_notebook
+---
+
+#Loading Data
+```{r}
+census_data <- read_csv("data/census_incarceration.csv")
+```
+The data doesn't seem to need any cleaning. Will re-evaluate as we do more explanation, but all the numbers, titles, and labels seem explanatory and consistent.
+
+#Analysis of the data
+The data has 3,211 rows and 9 columns. Each county for every state has the total population and incarcerated population for 2020, 2010 and 2000, and its FIPS code. 
