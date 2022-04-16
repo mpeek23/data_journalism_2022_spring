@@ -38,6 +38,7 @@ library(tidycensus)
 library(sf)
 library(janitor)
 library(tigris)
+library(lubridate)
 ```
 ```{r echo=FALSE}
 census_api_key("9964335653db1aadffbab0ffc641d6edbb58a4ac")
@@ -71,10 +72,18 @@ wv_county_population <- wv_county_population %>%
 wv_county_population
 ```
 ```{r}
+wv_table <- mining_quarrying %>% 
+ as_tibble() %>%
+  group_by(project_county_name) %>%
+  summarise(
+    total_loans = sum(amount)) %>%
+  arrange(desc(total_loans))
+```
+```{r}
 wv_map_mines<- wv_county_population %>%
-  left_join(mining_quarrying, by=c("COUNTY"= "project_county_name")) %>% 
-  mutate(amount = replace_na(amount,0)) %>% 
-  mutate(loans_per_100k = amount/population*100000) %>%
+  left_join(wv_table, by=c("COUNTY"= "project_county_name")) %>% 
+  mutate(total_loans = replace_na(total_loans,0)) %>% 
+  mutate(loans_per_100k = total_loans/population*100000) %>%
   arrange(desc(loans_per_100k))
 
 wv_map_mines
@@ -85,23 +94,13 @@ ggplot() +
   theme_minimal() +
   scale_fill_viridis_b(option="magma",trans = "log") 
 ```
-```{r}
-wv_table <- wv_map_mines %>% 
- as_tibble() %>%
-  group_by(COUNTY) %>%
-  summarise(
-    total_loans = sum(amount)) %>%
-  arrange(desc(total_loans))
-  
-```
 * Based on the map, what region of the state appears to have gotten more loans in this industry? What geographic pattern do you notice in the data?
 
-The two areas with the most loans are Clay County WV and Tucker County WV, which are the least populated counties in the state. It seems like the more rural counties had more loans per 100,000 people while the more populated counties like Kanawha had less loans per 100,000 people.
+The inner part of the county had the most loans per 100,000 people. Ritchie County has the most loans.
 
 * Based on the table, what county got the highest total loan amount? What was the total amount per 100K population, the total amount of loans (not population adjusted), how many loans were there, and what's the population?
 
-
-
+Ritchie County has the most loans, with a rate of $77,752,742.79 per 100,000 people. Its total loans were $7,653,980.00 and 9844 population.
 
 **Q2.** You want to understand WHY the spatial pattern you saw above exists.  So you grab a shapefile with the latitude and longitude coordinates of every mine permit in West Virginia from the state Department of Environmental Protection.
 
@@ -120,7 +119,11 @@ What spatial pattern do you see? How does it compare to the spatial pattern in t
 mine_cords <- st_read("https://tagis.dep.wv.gov/arcgis/rest/services/WVDEP_enterprise/mining_reclamation/MapServer/0/query?where=1%3D1&outFields=*&geometry=&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json")
 ```
 ```{r}
-mine_cords %>% filter
+lubridate_mine_cords <- mine_cords %>% mutate(
+    CleanDate = ymd(expiredate))
+```
+```{r}
+lubridate_mine_cords %>% filter(expiredate > "2021/09/01")
 ```
 **Q3.** To confirm the spatial comparison you identified in question 2, let's create a new map that layers the mine location points on top of our PPP choropleth map we created in question 1. What do you notice about the number of mines in the county that has the highest total loan amount per 100K?
 
