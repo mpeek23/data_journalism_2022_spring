@@ -209,7 +209,6 @@ We're also going to change things up a bit to put the datasets we want to displa
 **Answer**
 It plots hospitals on to Maryland!
 ```{r}
-
 ggplot() + 
   geom_sf(data=md_counties) + 
   geom_sf(data=md_hospitals) +
