@@ -115,6 +115,7 @@ Make a map with a point for each one of these mine permits and put a blank map w
 What spatial pattern do you see? How does it compare to the spatial pattern in the first map you made?
 
 **A2.**
+The spatial pattern map shows a similar, but more concentrated trend that was shown in the first map. It seems like the loans are way more concentrated in  the bottom state, thin out a bit in the middle of the state and then sprinkle up in the top, but the per 100k map seems to create a much bigger block.
 ```{r}
 mine_cords <- st_read("https://tagis.dep.wv.gov/arcgis/rest/services/WVDEP_enterprise/mining_reclamation/MapServer/0/query?where=1%3D1&outFields=*&geometry=&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json")
 ```
@@ -125,10 +126,41 @@ lubridate_mine_cords <- mine_cords %>% mutate(
 ```{r}
 lubridate_mine_cords <- lubridate_mine_cords %>% filter(CleanDate > "2021-09-01")
 ```
-
+```{r}
+lubridate_mine_cords %>%
+  ggplot() + 
+  geom_sf() + 
+  theme_minimal()
+```
+```{r}
+counties <- counties()
+```
+```{r}
+west_virigina_counties <- counties %>% filter(STATEFP == "54")
+```
+```{r}
+west_virigina_counties %>%
+  ggplot() + 
+  geom_sf() + 
+  theme_minimal()
+```
+```{r}
+ggplot() + 
+  geom_sf(data=west_virigina_counties) + 
+  geom_sf(data=lubridate_mine_cords) +
+  theme_minimal()
+```
 **Q3.** To confirm the spatial comparison you identified in question 2, let's create a new map that layers the mine location points on top of our PPP choropleth map we created in question 1. What do you notice about the number of mines in the county that has the highest total loan amount per 100K?
 
 **A3.**
+```{r}
+ggplot() +
+  geom_sf(data=wv_map_mines, aes(fill=loans_per_100k)) + 
+  theme_minimal() +
+  scale_fill_viridis_b(option="magma",trans = "log") +
+  geom_sf(data=lubridate_mine_cords)
+```
+It's very interesting that Ritchie County, which had the most loans in the industry, only has one mine.
 
 **Q4.** Starting from the original WV ppp dataframe, examine the loans to companies in "Mining, Quarrying, and Oil and Gas Extraction" in the county with the highest total loan amount per 100K (you can use the table you created in question 1 to identify the top county).
 
@@ -136,6 +168,7 @@ lubridate_mine_cords <- lubridate_mine_cords %>% filter(CleanDate > "2021-09-01"
 * What specific industry are they in, based on their 6-digit NAICS code? Look them up on the web. What services do they provide?
 * How many jobs did they save, according to the data?
 * What's your hypothesis for why a company in their specific industry would need to seek a PPP loan during the pandemic?
-
 **A4.**
+Ritchie county had the highest amount of loans, and the largest loan from the county was from Hall Drilling, LLC. The specific industry is drilling oil and gas wells. They provide a ton of services, including hauling a variety of things by truck, providing different drill rigs, doing different construction, and installing products. They retained 387 jobs. The company is owned by a local family and employs local community members, so they probably wanted a loan to keep the money in the community. I'm sure some of their services were in less demand because of COVID- less money was spent during that time, so there was less construction projects that would need some of these services- so they probably used most of their loan money to keep paying salaries for their employees. 
+
 -30-
