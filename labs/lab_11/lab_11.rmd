@@ -123,8 +123,9 @@ lubridate_mine_cords <- mine_cords %>% mutate(
     CleanDate = ymd(expiredate))
 ```
 ```{r}
-lubridate_mine_cords %>% filter(expiredate > "2021/09/01")
+lubridate_mine_cords <- lubridate_mine_cords %>% filter(CleanDate > "2021-09-01")
 ```
+
 **Q3.** To confirm the spatial comparison you identified in question 2, let's create a new map that layers the mine location points on top of our PPP choropleth map we created in question 1. What do you notice about the number of mines in the county that has the highest total loan amount per 100K?
 
 **A3.**
