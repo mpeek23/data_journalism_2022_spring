@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 options(scipen=999)
 ```
 ```{r}
-install.packages("ggrepel")
+library(ggrepel)
 library(tidyverse)
 library(janitor)
 library(lubridate)
@@ -56,6 +56,28 @@ wv_crime <- wv_crime %>%
   mutate(datetime = mdy_hm(datetime)) %>% 
   mutate(date = date(datetime), hour= hour(datetime), day_of_week = wday(date))
 ```
+```{r}
+wv_crime <- wv_crime %>% 
+  arrange(desc(date)) 
+```
+```{r}
+latest_date <- wv_crime %>% slice(1) 
+title_latest <- latest_date %>%  select(title) %>% slice(1) %>% 
+
+
+past_30_days <- wv_crime %>% filter(date > latest_date$date - 30)
+```
+```{r}
+number_30 <- past_30_days %>% 
+  filter(title == latest_date$title) %>% 
+  summarise(title=n())
+```
+
+```{r}
+sub <- paste("The lastest crime occurred on", format(latest_date$date, format="%B %d"),".", "The crime,", latest_date$title, ", occurred", number_30$title, "times in the past month")
+sub
+```
+A1: I would also be interested to see the percentage change of crime from week to week.
 
 **Q2.** Maryland produces a [CSV file](https://raw.githubusercontent.com/state-of-maryland/VaccineCSVs/master/Vax_ZIP_CODE_FirstSecondSingle_Totals_Raw.csv) showing the total number of vaccinations by zip code and -- interestingly -- it includes non-Maryland zip codes (as well as some zip codes that seem to be bad data). write a script that reads the CSV file, making the columns more readable and adding today's date. Then output the top 25 Maryland zip codes and top 25 non-Maryland zip codes based on number of people fully vaccinated, and write both dataframes out to CSV files, using the following name formats:
 
@@ -75,8 +97,13 @@ Google the top 2-3 zip codes from both Maryland and non-Maryland results and des
 **A2.**
 
 ```{r}
+vax_data <- read_csv("https://raw.githubusercontent.com/state-of-maryland/VaccineCSVs/master/Vax_ZIP_CODE_FirstSecondSingle_Totals_Raw.csv")
 ```
-
+```{r}
+clean_vax_data <- vax_data %>% 
+  filter(!is.na(FullyVaccinated)) %>% 
+  filter(str_length(ZIP_CODE)== 5) 
+```
 **Q3.** Maryland has had one of the more successful vaccination rates, but you want to understand where a significant portion of the population remains less than fully vaccinated. Make a dataframe of all Maryland zip codes from the vaccination data you used in Q2 and join it to Maryland zip code population data from the Census API. Calculate the percentage of fully vaccinated for each zip code and then make a map showing the zip codes with less than 50 percent fully vaccinated. Put a blank map with the outline of Maryland counties (which you can get from Tigris) behind it for context. Add a label to the map describing what the data is and include the date from the vaccination data (programmatically, so you can run it every day).
 
 You WILL need to ensure that the columns you use to join the two dataframes are the same datatype and remember that join order matters.
