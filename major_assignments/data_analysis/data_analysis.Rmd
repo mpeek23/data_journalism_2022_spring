@@ -4,9 +4,22 @@ output: html_notebook
 ---
 
 #Loading Data
+```{r echo=FALSE}
+census_api_key("ab0ed8418e6554d3eb77ed342784e3bb0b002a64")#, install=TRUE)
+
+```
+```{r}
+library(tidyverse)
+library(sf)
+library(janitor)
+library(tidycensus)
+library(tigris)
+library(lubridate)
+```
 ```{r}
 census_data <- read_csv("data/census_incarceration.csv")
 ```
+
 The data doesn't seem to need any cleaning. Will re-evaluate as we do more explanation, but all the numbers, titles, and labels seem explanatory and consistent.
 
 #Analysis of the data
