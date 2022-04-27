@@ -218,6 +218,18 @@ pre code {
 <p>#Loading Data</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHNmKVxubGlicmFyeShqYW5pdG9yKVxubGlicmFyeSh0aWR5Y2Vuc3VzKVxubGlicmFyeSh0aWdyaXMpXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmBgYCJ9 -->
+<pre class="r"><code>library(tidyverse)
+library(sf)
+library(janitor)
+library(tidycensus)
+library(tigris)
+library(lubridate)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2Vuc3VzX2RhdGEgPC0gcmVhZF9jc3YoXCJkYXRhL2NlbnN1c19pbmNhcmNlcmF0aW9uLmNzdlwiKVxuYGBgIn0= -->
 <pre class="r"><code>census_data &lt;- read_csv(&quot;data/census_incarceration.csv&quot;)</code></pre>
 <!-- rnb-source-end -->
@@ -227,7 +239,7 @@ pre code {
 <p>#Analysis of the data The data has 3,211 rows and 9 columns. Each county for every state has the total population and incarcerated population for 2020, 2010 and 2000, and its FIPS code.</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiZGF0YV9hbmFseXNpc19wcm9qZWN0IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojTG9hZGluZyBEYXRhCmBgYHtyfQpjZW5zdXNfZGF0YSA8LSByZWFkX2NzdigiZGF0YS9jZW5zdXNfaW5jYXJjZXJhdGlvbi5jc3YiKQpgYGAKVGhlIGRhdGEgZG9lc24ndCBzZWVtIHRvIG5lZWQgYW55IGNsZWFuaW5nLiBXaWxsIHJlLWV2YWx1YXRlIGFzIHdlIGRvIG1vcmUgZXhwbGFuYXRpb24sIGJ1dCBhbGwgdGhlIG51bWJlcnMsIHRpdGxlcywgYW5kIGxhYmVscyBzZWVtIGV4cGxhbmF0b3J5IGFuZCBjb25zaXN0ZW50LgoKI0FuYWx5c2lzIG9mIHRoZSBkYXRhClRoZSBkYXRhIGhhcyAzLDIxMSByb3dzIGFuZCA5IGNvbHVtbnMuIEVhY2ggY291bnR5IGZvciBldmVyeSBzdGF0ZSBoYXMgdGhlIHRvdGFsIHBvcHVsYXRpb24gYW5kIGluY2FyY2VyYXRlZCBwb3B1bGF0aW9uIGZvciAyMDIwLCAyMDEwIGFuZCAyMDAwLCBhbmQgaXRzIEZJUFMgY29kZS4gCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiZGF0YV9hbmFseXNpc19wcm9qZWN0IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojTG9hZGluZyBEYXRhCmBgYHtyIGVjaG89RkFMU0V9CmNlbnN1c19hcGlfa2V5KCJhYjBlZDg0MThlNjU1NGQzZWI3N2VkMzQyNzg0ZTNiYjBiMDAyYTY0IikjLCBpbnN0YWxsPVRSVUUpCgpgYGAKYGBge3J9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KHNmKQpsaWJyYXJ5KGphbml0b3IpCmxpYnJhcnkodGlkeWNlbnN1cykKbGlicmFyeSh0aWdyaXMpCmxpYnJhcnkobHVicmlkYXRlKQpgYGAKYGBge3J9CmNlbnN1c19kYXRhIDwtIHJlYWRfY3N2KCJkYXRhL2NlbnN1c19pbmNhcmNlcmF0aW9uLmNzdiIpCmBgYAoKVGhlIGRhdGEgZG9lc24ndCBzZWVtIHRvIG5lZWQgYW55IGNsZWFuaW5nLiBXaWxsIHJlLWV2YWx1YXRlIGFzIHdlIGRvIG1vcmUgZXhwbGFuYXRpb24sIGJ1dCBhbGwgdGhlIG51bWJlcnMsIHRpdGxlcywgYW5kIGxhYmVscyBzZWVtIGV4cGxhbmF0b3J5IGFuZCBjb25zaXN0ZW50LgoKI0FuYWx5c2lzIG9mIHRoZSBkYXRhClRoZSBkYXRhIGhhcyAzLDIxMSByb3dzIGFuZCA5IGNvbHVtbnMuIEVhY2ggY291bnR5IGZvciBldmVyeSBzdGF0ZSBoYXMgdGhlIHRvdGFsIHBvcHVsYXRpb24gYW5kIGluY2FyY2VyYXRlZCBwb3B1bGF0aW9uIGZvciAyMDIwLCAyMDEwIGFuZCAyMDAwLCBhbmQgaXRzIEZJUFMgY29kZS4gCg==</div>
 
 
 
