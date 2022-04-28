@@ -25,10 +25,12 @@ options(scipen=999)
 ```{r}
 library(ggrepel)
 library(tidyverse)
+library(tidycensus)
 library(janitor)
 library(lubridate)
 library(ggrepel)
 library(sf)
+library(tigris)
 ```
 ## Questions
 
@@ -106,27 +108,96 @@ clean_vax_data <- vax_data %>%
 ```{r}
 maryland_vax <- clean_vax_data %>% 
   filter(ZIP_CODE >= 20601) %>% 
-  filter(ZIP_CODE <= 21930)
+  filter(ZIP_CODE <= 21930) %>% 
   mutate(vaccination_date = now()) %>% 
-  arrange(desc(FullyVaccinated)) %>% 
+  arrange(desc(FullyVaccinated))
+```
+```{r}
+top_maryland_vax <- maryland_vax %>% 
   head(25)
 ```
 ```{r}
-write_csv(maryland_vax, "maryland_zips_yyyymmdd.csv")
+write_csv(top_maryland_vax, "maryland_zips_yyyymmdd.csv")
 ```
 ```{r}
 non_maryland_vax <- clean_vax_data %>% 
-  filter(!(ZIP_CODE <= 20601)) %>% 
-  filter(!(ZIP_CODE >= 21930))
+   filter(ZIP_CODE > 21930 | ZIP_CODE < 20601) %>% 
+    mutate(vaccination_date = now()) %>% 
+    arrange(desc(FullyVaccinated)) %>% 
+    head(25)
 ```
+```{r}
+write_csv(non_maryland_vax, "non_maryland_zips_yyyymmdd.csv")
+```
+#A2 Google the top 2-3 zip codes from both Maryland and non-Maryland results and describe them in your answer.
 
-**Q3.** Maryland has had one of the more successful vaccination rates, but you want to understand where a significant portion of the population remains less than fully vaccinated. Make a dataframe of all Maryland zip codes from the vaccination data you used in Q2 and join it to Maryland zip code population data from the Census API. Calculate the percentage of fully vaccinated for each zip code and then make a map showing the zip codes with less than 50 percent fully vaccinated. Put a blank map with the outline of Maryland counties (which you can get from Tigris) behind it for context. Add a label to the map describing what the data is and include the date from the vaccination data (programmatically, so you can run it every day).
+Maryland top 3 zip codes: 20906 (Silver Spring), 20878 (Gaithersburg/North Potomac), 20874 (Darnestown). All of these are wealthier areas, and in Montgomery County, Maryland, which really pushed vaccinations.
+Non-Maryland zip codes: 20011 (DC, Brightwood Park) 20002 (DC, Northeast), 20009 (DC,Kalorama Heights). These areas varied in population density, average median income and racial demographics but all had a pretty large younger population.
+
+**Q3.** Maryland has had one of the more successful vaccination rates, but you want to understand where a significant portion of the population remains less than fully vaccinated. 
+Make a dataframe of all Maryland zip codes from the vaccination data you used in Q2 and 
+join it to Maryland zip code population data from the Census API. 
+
+Calculate the percentage of fully vaccinated for each zip code and then 
+
+make a map showing the zip codes with less than 50 percent fully vaccinated. 
+
+Put a blank map with the outline of Maryland counties (which you can get from Tigris) behind it for context. 
+
+Add a label to the map describing what the data is and include the date from the vaccination data (programmatically, so you can run it every day).
 
 You WILL need to ensure that the columns you use to join the two dataframes are the same datatype and remember that join order matters.
 
 Describe the output of the map below, and say what you think the most interesting areas are.
 
 **A3.**
-
-```{r}
+```{r echo=FALSE}
+census_api_key("9964335653db1aadffbab0ffc641d6edbb58a4ac")
 ```
+```{r}
+md_zips <- get_acs(geography = "zcta",
+              variables = c(zip = "B02001_001"),
+              state = "MD",
+              year = 2019,
+              geometry = TRUE)
+```
+```{r}
+md_zips <- md_zips %>% mutate(across(GEOID, as.numeric))
+```
+```{r}
+md_joined <- maryland_vax %>% 
+  left_join(md_zips, by=c('ZIP_CODE' = 'GEOID'))
+```
+```{r}
+md_joined <- md_joined %>% 
+  mutate(vax_percent = FullyVaccinated/estimate *100)
+```
+```{r}
+less_md_joined <- md_joined%>% 
+  filter(vax_percent < 50)
+```
+```{r}
+counties <- counties()
+```
+```{r}
+md_counties <- counties %>% 
+ filter(STATEFP == "24")
+```
+```{r}
+md_counties %>%
+  ggplot() + 
+  geom_sf() + 
+  theme_minimal()
+```
+```{r}
+ggplot() +
+  geom_sf(data = md_counties) +
+  geom_sf(data=less_md_joined, aes(geometry=geometry, fill=vax_percent)) +
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt") +
+  theme_void()
+```
+```{r}
+sub <- paste("The map depicts the percent of full vaccination in Maryland under 50%, as of", format(less_md_joined$vaccination_date, format="%B %d"),  ".")
+sub
+```
+It's interesting how the majority of the edges of Maryland make up the lowest vaccination rates are in the edges of the state, which are the traditionally more rural, but there's a smattering of random low areas throughout the state. It looks like the vaccination rate is pretty low near Baltimore, so that may bring up interesting access issues.
