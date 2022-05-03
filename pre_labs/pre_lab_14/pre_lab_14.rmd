@@ -257,7 +257,7 @@ Now we can begin to see some differences between the parties. We also could do t
 ### Task 14: Create a dataframe with the top 10 two-word phrases in 2020 and 2021 for Republican House candidates
 **Task** Run the following code and describe the results.
 **Answer**
-This creates two dataframes of Republicans top two phrases in 2020 and 2021. In 2020, 
+This creates two dataframes of Republicans top two phrases in 2020 and 2021. In 2020, the top words were "covid 19", "president trump", "coronavirus pandemic" or "nursing home." In 2021, the top words were "covid 19" "covid relief" or "covid vaccine."
 ```{r}
 covid_tweets %>%
   filter(created < '2021-01-01', title == 'House Candidate', party == 'R') %>%
@@ -293,7 +293,7 @@ Another popular use of text analysis is to measure the sentiment of a word - whe
 ### Task 15: Load the bing lexicon and produce sentiments for our 2020 and 2021 unique words
 **Task** Run the following code and describe the results. Do any of the sentiments seem incorrect or counter-intuitive?
 **Answer**
-
+Some sentiments found by the code in 2020 and 2021 seemed a little off, while some seemed accurate. Words like relief, support, thank or safe seem safe to call a positive sentiment, while virus or emergency feel solidly negative. Other words, like Trump or like, I think can't be assigned a particular sentiment because they're not real subject words.
 ```{r}
 bing <- get_sentiments("bing")
 
